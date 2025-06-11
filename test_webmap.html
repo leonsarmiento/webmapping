@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAo9AqTjKbh+viIfVWGgrusMvBOKsBkmO7jKfmAE="
+     crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20n6FLzYx422B9dM5Wv/5r3W0P1/h5j25gX/a7JbU="
+     crossorigin=""></script>
+
+    <style>
+        #mapid {
+            height: 600px; /* Adjust height as needed */
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="mapid"></div>
+
+    <script>
+        // Initialize the map
+        var map = L.map('mapid').setView([45.5, 41], 6); // Centered on Rio de Janeiro, zoom level 12
+
+        // Add a tile layer (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Load your GeoJSON data
+        fetch('your_data.geojson')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJson(data, {
+                    onEachFeature: function (feature, layer) {
+                        // Create a popup with attribute information
+                        if (feature.properties) {
+                            var popupContent = "<table>";
+                            for (var key in feature.properties) {
+                                // Exclude geometry-related properties if they exist
+                                if (key !== "geom" && key !== "geometry") {
+                                    popupContent += "<tr><td><b>" + key + ":</b></td><td>" + feature.properties[key] + "</td></tr>";
+                                }
+                            }
+                            popupContent += "</table>";
+                            layer.bindPopup(popupContent);
+                        }
+                    },
+                    // Optional: Style your features (e.g., lines, polygons)
+                    // style: function(feature) {
+                    //     return { color: 'blue', weight: 3, opacity: 0.7 };
+                    // }
+                }).addTo(map);
+            })
+            .catch(error => console.error('Error loading GeoJSON:', error));
+
+    </script>
+
+</body>
+</html>
