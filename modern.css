@@ -1,0 +1,14 @@
+/* Papyrus for all text */
+h1, h2, h3, h4, h5, h6, body, p {
+    font-family: 'Papyrus', serif;
+    color: #2980b9; /* Primary color */
+}
+/* General styling */
+body {
+    background-color: #ecf0f1; /* Light gray background */
+    color: #343a40; /* Dark gray text color */
+}
+
+p {
+    line-height: 1.6;
+}

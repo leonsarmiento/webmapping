@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Web Map</title>
+<title>south caucasus web map</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -19,14 +19,36 @@
             width: 100%;
         }
     </style>
+
+    <link rel="stylesheet" href="modern.css">
 </head>
 <body>
 
+<h1>
+    <a href="description.html">Go to Description</a> |
+    <a href="description.es.html">Ir a Descripción</a>
+    Webmap Test
+</h1>
+<div id="description"></div>
+
+<script>
+    function loadDescription(file) {
+        fetch(file)
+            .then(response => response.text())
+            .then(text => {
+                document.getElementById('description').innerHTML = text;
+            })
+            .catch(error => console.error('Error loading description:', error));
+    }
+
+    // Load the default description
+    loadDescription('description.html');
+</script>
     <div id="mapid"></div>
 
     <script>
         // Initialize the map
-        var map = L.map('mapid').setView([45.5, 41], 6); // Centered on Rio de Janeiro, zoom level 12
+        var map = L.map('mapid').setView([41.04, 45.58], 6); // Centered in Caucasus region, zoom level 12
 
         // Add a tile layer (OpenStreetMap)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
